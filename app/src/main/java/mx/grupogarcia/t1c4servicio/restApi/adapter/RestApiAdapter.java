@@ -1,22 +1,21 @@
 package mx.grupogarcia.t1c4servicio.restApi.adapter;
 
-//import com.coursera.sacbe.petagramaxelsegura.restApi.ConstantesRestApi;
-//import com.coursera.sacbe.petagramaxelsegura.restApi.IEndPointsApi;
-//import com.coursera.sacbe.petagramaxelsegura.restApi.deserializador.MascotaDeserializador;
-//import com.coursera.sacbe.petagramaxelsegura.restApi.deserializador.SeguidorDeserializador;
-//import com.coursera.sacbe.petagramaxelsegura.restApi.deserializador.UsuarioDeserializador;
-//import com.coursera.sacbe.petagramaxelsegura.restApi.model.MascotaResponse;
+
 import com.google.gson.Gson;
+import retrofit2.Retrofit;
 import com.google.gson.GsonBuilder;
+import mx.grupogarcia.t1c4servicio.restApi.IEndPointsApi;
+import retrofit2.converter.gson.GsonConverterFactory;
+import mx.grupogarcia.t1c4servicio.restApi.ConstantesRestApi;
 import mx.grupogarcia.t1c4servicio.restApi.model.MascotaResponse;
 import mx.grupogarcia.t1c4servicio.restApi.deserializador.UsuarioDeserializador;
 import mx.grupogarcia.t1c4servicio.restApi.deserializador.SeguidorDeserializador;
 import mx.grupogarcia.t1c4servicio.restApi.deserializador.MascotaDeserializador;
-import mx.grupogarcia.t1c4servicio.restApi.IEndPointsApi;
-import mx.grupogarcia.t1c4servicio.restApi.ConstantesRestApi;
 
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
+
+
+
+
 
 /**
  * Created by Luis García on 03/01/2017.
@@ -62,5 +61,17 @@ public class RestApiAdapter {
         return gsonBuilder.create();
 
     }
+
+    public IEndPointsApi establecerConexionRestApiHeroku(){
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(ConstantesRestApi.HEROKU_ROOT_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
+                ;
+        return retrofit.create(IEndPointsApi.class);
+
+    }
+
 
 }

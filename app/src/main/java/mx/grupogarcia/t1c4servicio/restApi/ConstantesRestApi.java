@@ -34,4 +34,10 @@ public final class ConstantesRestApi {
     public static final String KEY_GET_FOLLOWED_BY = "users/self/followed-by";
     public static final String URL_GET_FOLLOWED_BY = KEY_GET_FOLLOWED_BY + INICIO_QUERY_STRING + KEY_ACCESS_TOKEN + ACCESS_TOKEN;
 
+    //Para heroku
+    public static final String HEROKU_ROOT_URL = "https://evening-caverns-26985.herokuapp.com/";
+    public static final String KEY_POST_ID_TOKEN = "token-device/";
+    public static final String KEY_POST_REGISTRAR_USUARIO = "registrar-usuario/";
+
+
 }

@@ -29,7 +29,7 @@ public class FotoMascotaAdaptador extends  RecyclerView.Adapter<FotoMascotaAdapt
         this.activity=activity;
     }
 
-    //Inflar el layout y lo pasará al view holder para obtener los views
+    //Inflamos el layout y lo enviara hacia  el view holder para obtener  views
     @Override
     public FotoMascotaViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         //View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.cardview_foto_mascota, parent, false);

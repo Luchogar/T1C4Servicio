@@ -19,6 +19,11 @@
         android:orderInCategory="103">
     </item>
     <item
+        android:id="@+id/mRecibirNotificaciones"
+        android:title="@string/notificaciones"
+        android:orderInCategory="104">
+    </item>
+    <item
         android:id="@+id/mFavoritos"
         android:icon="@mipmap/empire"
         android:title="@string/item_fav"

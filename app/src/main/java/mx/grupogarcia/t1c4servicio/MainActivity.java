@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -20,6 +21,12 @@ import android.widget.Toast;
 import mx.grupogarcia.t1c4servicio.fragment.RecyclerViewFragment;
 import mx.grupogarcia.t1c4servicio.fragment.PerfilFragment;
 import mx.grupogarcia.t1c4servicio.adapter.PageAdapter;
+import mx.grupogarcia.t1c4servicio.restApi.IEndPointsApi;
+import mx.grupogarcia.t1c4servicio.restApi.adapter.RestApiAdapter;
+import mx.grupogarcia.t1c4servicio.restApi.model.UsuarioInstagram;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 import java.util.ArrayList;
@@ -112,6 +119,14 @@ public class MainActivity extends AppCompatActivity {
                 Intent iConfig = new Intent(this, ConfigurarCuenta.class);
                 startActivity(iConfig);
                 break;
+            case R.id.mRecibirNotificaciones:
+                Toast.makeText(this, getResources().getString(R.string.receiver), Toast.LENGTH_SHORT).show();
+                String idDispositivo = FirebaseInstanceId.getInstance().getToken();
+                String idUsuarioInstagram = obtenerCuentaConfigurada();
+
+                enviarTokenRegistro(idDispositivo,idUsuarioInstagram);
+                Toast.makeText(this, R.string.registration + " " + idUsuarioInstagram, Toast.LENGTH_SHORT).show();
+                break;
             case R.id.mFavoritos:
                 Toast.makeText(this, getResources().getString(R.string.item_fav), Toast.LENGTH_SHORT).show();
                 Intent iFav = new Intent(this, MascotaFavorita.class);
@@ -122,4 +137,43 @@ public class MainActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+    private void enviarTokenRegistro(String idDispositivo, String idUsuarioInstagram){
+
+        Log.d("ID_DISPOSITIVO", idDispositivo);
+        Log.d("ID_USUARIO_INSTAGRAM", idUsuarioInstagram);
+
+        RestApiAdapter restApiAdapter = new RestApiAdapter();
+
+        IEndPointsApi endpoints = restApiAdapter.establecerConexionRestApiHeroku();
+        Call<UsuarioInstagram> usuarioResponseCall = endpoints.registrarUsuarioID(idDispositivo,idUsuarioInstagram);
+
+        usuarioResponseCall.enqueue(new Callback<UsuarioInstagram>() {
+            @Override
+            public void onResponse(Call<UsuarioInstagram> call, Response<UsuarioInstagram> response) {
+                UsuarioInstagram usuarioResponse = response.body();
+                Log.d("ID", usuarioResponse.getId());
+                Log.d("ID_DISPOSITIVO", usuarioResponse.getIdDispositivo());
+                Log.d("ID_USUARIO_INSTAGRAM", usuarioResponse.getIdUsuarioInstagram());
+            }
+
+            @Override
+            public void onFailure(Call<UsuarioInstagram> call, Throwable t) {
+
+            }
+        });
+
+
+    }
+
+    private String obtenerCuentaConfigurada(){
+
+        SharedPreferences miPreferenciaCompartida = getSharedPreferences("MisDatosPersonales", Context.MODE_PRIVATE);
+
+        String nombrePerfilActual = miPreferenciaCompartida.getString(getResources().getString(R.string.pNombrePerfil), "");
+
+        return nombrePerfilActual;
+    }
+
 }
+
+

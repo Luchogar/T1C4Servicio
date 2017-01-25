@@ -1,10 +1,14 @@
 package mx.grupogarcia.t1c4servicio.restApi;
 
-//import com.coursera.sacbe.petagramaxelsegura.restApi.model.MascotaResponse;
+import mx.grupogarcia.t1c4servicio.restApi.model.MascotaResponse;
 import mx.grupogarcia.t1c4servicio.restApi.model.MascotaResponse;
 
+import mx.grupogarcia.t1c4servicio.restApi.model.UsuarioInstagram;
 import retrofit2.Call;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
@@ -23,4 +27,13 @@ public interface IEndPointsApi {
 
     @GET(ConstantesRestApi.URL_GET_FOLLOWED_BY)
     Call<MascotaResponse> getFollowedBy();
+    @FormUrlEncoded
+    @POST(ConstantesRestApi.KEY_POST_ID_TOKEN)
+    Call<UsuarioInstagram> registrarTokenID(@Field("token") String token);
+
+    @FormUrlEncoded
+    @POST(ConstantesRestApi.KEY_POST_REGISTRAR_USUARIO)
+    Call<UsuarioInstagram> registrarUsuarioID(@Field("idDispositivo") String idDispositivo, @Field("idUsuarioInstagram") String idUsuarioInstagram);
+
+
 }
